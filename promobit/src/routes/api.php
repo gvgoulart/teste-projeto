@@ -61,6 +61,9 @@ Route::middleware(['auth:api'])->group(function () {
     //Deleta Product
     Route::delete('product/delete/{id}', [ProductController::class, 'delete']);
 
+    //Deleta Product
+    Route::delete('product/insertOtherTag/{id}', [ProductController::class, 'insertOtherTag']);
+
     //Cria Tag
     Route::post('tag/create', [TagController::class, 'create']);
 

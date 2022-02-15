@@ -102,4 +102,25 @@ class ProductController extends Controller
             return response(['message' => 'Você não tem permissão para deletar um product!'], 404);
         }
     }
+
+    public function insertOtherTag(Request $request, $product_id){ 
+        if (Tag::where('id', $request->tag_id)->exists()) {             
+            if (Product::where('id', $product_id)->exists()) {                 
+                $product = Product::findOrFail($product_id);                  
+                $product_tag = ProductTag::where('product_id', '=', $product_id)->where('tag_id', '=', $request->atual_tag_id);                  
+                if($product_tag) {                     
+                    $product_tag->update([                         
+                        'tag_id' => $request->tag_id                     
+                    ]);                      
+                    return  response([ 'message' => 'Produto editado com sucesso'], 200);                 
+                } else {                     
+                    return response(['message' => 'Relacionamento não encontrado!'], 404);                 
+                }             
+            } else {                 
+                return response(['message' => 'Produto não encontrado!'], 404);             
+            }         
+        } else {             
+            return response(['message' => 'Tag não existe!'], 404);         
+        }     
+    }
 }
